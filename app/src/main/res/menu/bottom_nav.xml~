@@ -17,7 +17,7 @@
             android:enabled="true"/>
 
         <item
-            android:id="@+id/navigation_news"
+            android:id="@+id/navigation_finished"
             android:icon="@drawable/baseline_newspaper_24"
             android:title="@string/news"
             android:enabled="true"/>

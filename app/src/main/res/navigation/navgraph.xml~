@@ -19,11 +19,7 @@
         android:id="@+id/navigation_history"
         android:name="com.dicoding.asclepius.view.history.HistoryFragment"
         android:label="fragment_history"
-        tools:layout="@layout/fragment_history" >
-        <action
-            android:id="@+id/action_navigation_history_to_resultActivity"
-            app:destination="@id/resultActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_history" />
 
     <fragment
         android:id="@+id/navigation_news"
@@ -35,9 +31,5 @@
         android:id="@+id/resultActivity"
         android:name="com.dicoding.asclepius.view.result.ResultActivity"
         android:label="activity_result"
-        tools:layout="@layout/activity_result" >
-        <argument
-            android:name="ClassificationResult"
-            app:argType="com.dicoding.asclepius.data.dto.ClassificationResult" />
-    </activity>
+        tools:layout="@layout/activity_result" />
 </navigation>
