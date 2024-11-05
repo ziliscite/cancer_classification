@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.dicoding.asclepius.repository.LocalRepository
 
 class HomeViewModel : ViewModel() {
     private val _uri = MutableLiveData<Uri?>()

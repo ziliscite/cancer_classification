@@ -22,6 +22,7 @@ import com.dicoding.asclepius.helper.ImageClassifierHelper
 import com.dicoding.asclepius.helper.ImageClassifierHelperFactory
 import com.dicoding.asclepius.view.result.ResultActivity
 import com.yalantis.ucrop.UCrop
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -92,35 +93,34 @@ class HomeFragment : Fragment() {
             onError = { viewLifecycleOwner.lifecycleScope.launch {
                 displayLoading(false)
                 showToast(it)
-            }},
-            onResults = { results, _ ->
-                viewLifecycleOwner.lifecycleScope.launch {
-                    results?.let { classifications ->
-                        if (classifications.isNotEmpty() && classifications[0].categories.isNotEmpty()) {
-                            classifications[0].categories.maxByOrNull {
-                                it.score
-                            }?.let {
-                                val classificationResult = ClassificationResult(
-                                    uri = viewModel.uri.value.toString(),
-                                    label = it.label,
-                                    score = it.score
-                                )
-                                displayLoading(false)
-                                moveToResult(classificationResult)
-                            }
-                        } else {
+            }}
+        ) { results, _ ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                results?.let { classifications ->
+                    if (classifications.isNotEmpty() && classifications[0].categories.isNotEmpty()) {
+                        classifications[0].categories.maxByOrNull {
+                            it.score
+                        }?.let {
+                            val classificationResult = ClassificationResult(
+                                uri = viewModel.uri.value.toString(),
+                                label = it.label,
+                                score = it.score
+                            )
                             displayLoading(false)
-                            showToast("No results found")
+                            moveToResult(classificationResult)
                         }
+                    } else {
+                        displayLoading(false)
+                        showToast("No results found")
                     }
                 }
             }
-        )
+        }
     }
 
     private fun moveToResult(result: ClassificationResult) {
-        val toEventDetail =  HomeFragmentDirections.actionNavigationHomeToResultActivity(result)
-        findNavController().navigate(toEventDetail)
+        val toResult =  HomeFragmentDirections.actionNavigationHomeToResultActivity(result, false)
+        findNavController().navigate(toResult)
     }
 
     private fun analyzeImage() {
@@ -132,7 +132,6 @@ class HomeFragment : Fragment() {
 
     private fun displayLoading(isLoading: Boolean) {
         binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
-
     }
 
     private fun showToast(message: String) {

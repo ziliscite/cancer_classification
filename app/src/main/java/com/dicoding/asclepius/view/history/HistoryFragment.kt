@@ -6,26 +6,53 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dicoding.asclepius.R
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.dicoding.asclepius.data.dto.ClassificationResult
+import com.dicoding.asclepius.databinding.FragmentHistoryBinding
+import com.dicoding.asclepius.helper.LocalViewModelFactory
 
 class HistoryFragment : Fragment() {
+    private var _binding: FragmentHistoryBinding? = null
+    private val binding get() = _binding!!
 
-    companion object {
-        fun newInstance() = HistoryFragment()
-    }
-
-    private val viewModel: HistoryViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
+    private val viewModel: HistoryViewModel by viewModels<HistoryViewModel> {
+        LocalViewModelFactory.getInstance(requireContext())
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_history, container, false)
+        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        viewModel.getHistories().observe(viewLifecycleOwner) {
+            setHistories(it)
+        }
+    }
+
+    private fun setHistories(results: List<ClassificationResult>) {
+        val adapter = HistoryAdapter {
+            // Result dari history, berarti isSaved = true
+            val toResult =  HistoryFragmentDirections.actionNavigationHistoryToResultActivity(it, true)
+            findNavController().navigate(toResult)
+        }
+        adapter.submitList(results)
+        binding.rvHistory.adapter = adapter
+    }
+
+    private fun setupRecyclerView() {
+        val layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvHistory.layoutManager = layoutManager
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

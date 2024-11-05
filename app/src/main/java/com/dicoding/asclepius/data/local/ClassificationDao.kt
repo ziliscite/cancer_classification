@@ -12,9 +12,6 @@ interface ClassificationDao {
     @Query("SELECT * FROM classificationresult ORDER BY id DESC")
     fun getAll(): LiveData<List<ClassificationResult>>
 
-    @Query("SELECT * FROM classificationresult WHERE id = :id")
-    fun getResultById(id: Int): LiveData<ClassificationResult>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(vararg classificationResults: ClassificationResult)
 

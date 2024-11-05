@@ -39,5 +39,8 @@
         <argument
             android:name="ClassificationResult"
             app:argType="com.dicoding.asclepius.data.dto.ClassificationResult" />
+        <argument
+            android:name="isSaved"
+            app:argType="boolean" />
     </activity>
 </navigation>

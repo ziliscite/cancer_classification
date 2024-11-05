@@ -11,10 +11,6 @@ class LocalRepository(
         return classificationDao.getAll()
     }
 
-    fun getById(id: Int): LiveData<ClassificationResult> {
-        return classificationDao.getResultById(id)
-    }
-
     suspend fun upsert(classificationResult: ClassificationResult) {
         classificationDao.upsert(classificationResult)
     }

@@ -5,6 +5,10 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.SystemClock
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.CastOp
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -42,17 +46,22 @@ class ImageClassifierHelper(
             setupImageClassifier()
         }
 
-        val imageProcessor = ImageProcessor.Builder()
-            .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
-            .add(CastOp(DataType.FLOAT32))
-            .build()
+        CoroutineScope(Dispatchers.Default).launch {
+            val imageProcessor = ImageProcessor.Builder()
+                .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
+                .add(CastOp(DataType.FLOAT32))
+                .build()
 
-        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(uriToBitmap(imageUri)))
+            val tensorImage = imageProcessor.process(TensorImage.fromBitmap(uriToBitmap(imageUri)))
 
-        var inferenceTime = SystemClock.uptimeMillis()
-        val results = imageClassifier?.classify(tensorImage)
-        inferenceTime = SystemClock.uptimeMillis() - inferenceTime
-        classifierListener?.onResults(results, inferenceTime)
+            var inferenceTime = SystemClock.uptimeMillis()
+            val results = imageClassifier?.classify(tensorImage)
+            inferenceTime = SystemClock.uptimeMillis() - inferenceTime
+
+            withContext(Dispatchers.Main) {
+                classifierListener?.onResults(results, inferenceTime)
+            }
+        }
     }
 
     private fun uriToBitmap(uri: Uri): Bitmap? {
