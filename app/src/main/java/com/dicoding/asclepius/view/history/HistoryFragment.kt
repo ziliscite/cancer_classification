@@ -38,7 +38,7 @@ class HistoryFragment : Fragment() {
 
     private fun setHistories(results: List<ClassificationResult>) {
         val adapter = HistoryAdapter {
-            // Result dari history, berarti isSaved = true
+            // Result is from history, so isSaved = true, also have id
             val toResult =  HistoryFragmentDirections.actionNavigationHistoryToResultActivity(it, true)
             findNavController().navigate(toResult)
         }

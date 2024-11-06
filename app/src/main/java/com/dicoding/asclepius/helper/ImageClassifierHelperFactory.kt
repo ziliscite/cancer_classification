@@ -3,7 +3,7 @@ package com.dicoding.asclepius.helper
 import android.content.Context
 import org.tensorflow.lite.task.vision.classifier.Classifications
 
-// Agar inisialisasi pada fragment tidak terlalu panjang
+// Factory, so that the initialization is a little bit less
 class ImageClassifierHelperFactory(private val context: Context) {
     fun create(onError: (String) -> Unit, onResults: (List<Classifications>?, Long) -> Unit): ImageClassifierHelper {
         return ImageClassifierHelper(

@@ -31,8 +31,7 @@ class ImageClassifierHelper(
 
     private fun setupImageClassifier() {
         val optionsBuilder = ImageClassifier.ImageClassifierOptions.builder()
-        val baseOptionsBuilder = BaseOptions.builder()
-            .setNumThreads(4)
+        val baseOptionsBuilder = BaseOptions.builder().setNumThreads(4)
         optionsBuilder.setBaseOptions(baseOptionsBuilder.build())
         try {
             imageClassifier = ImageClassifier.createFromFileAndOptions(context, modelName, optionsBuilder.build())

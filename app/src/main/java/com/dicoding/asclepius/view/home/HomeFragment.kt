@@ -1,6 +1,5 @@
 package com.dicoding.asclepius.view.home
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,18 +10,14 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity.RESULT_OK
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.dicoding.asclepius.R
 import com.dicoding.asclepius.data.dto.ClassificationResult
 import com.dicoding.asclepius.databinding.FragmentHomeBinding
 import com.dicoding.asclepius.helper.ImageClassifierHelper
 import com.dicoding.asclepius.helper.ImageClassifierHelperFactory
-import com.dicoding.asclepius.view.result.ResultActivity
 import com.yalantis.ucrop.UCrop
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -89,7 +84,7 @@ class HomeFragment : Fragment() {
 
     private fun initializeClassifier() {
         imageClassifierHelper = imageClassifierHelperFactory.create(
-            // Karna di fragment, jadi pakai viewLifecycleOwner, bukan runOnUiThread
+            // Since its in fragment we use viewLifecycleOwner instead of runOnUiThread
             onError = { viewLifecycleOwner.lifecycleScope.launch {
                 displayLoading(false)
                 showToast(it)

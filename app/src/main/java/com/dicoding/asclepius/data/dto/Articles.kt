@@ -4,25 +4,25 @@ import com.google.gson.annotations.SerializedName
 
 data class Articles(
     @field:SerializedName("totalResults")
-    val totalResults: Int? = null,
+    val totalResults: Int,
 
     @field:SerializedName("articles")
-    val articles: List<ArticlesItem>? = null,
+    val articles: List<ArticlesItem>,
 
     @field:SerializedName("status")
-    val status: String? = null,
+    val status: String,
 )
 
 data class ArticlesItem(
     @field:SerializedName("urlToImage")
-    val urlToImage: String? = null,
+    val urlToImage: String,
 
     @field:SerializedName("title")
-    val title: String? = null,
+    val title: String,
 
     @field:SerializedName("description")
-    val description: String? = null,
+    val description: String,
 
     @field:SerializedName("url")
-    val url: String? = null,
+    val url: String,
 )

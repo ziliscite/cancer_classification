@@ -1,6 +1,5 @@
 package com.dicoding.asclepius.view.result
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -39,16 +38,16 @@ class ResultActivity : AppCompatActivity() {
             binding.fabSave.setImageResource(R.drawable.baseline_favorite_24)
             binding.fabSave.setOnClickListener {
                 viewModel.delete(result.id!!)
-                showToast("History berhasil dihapus")
-                // result dari home tidak memiliki id, jadi agak sulit untuk dikeep track.
-                // Oleh karna itu, setelah operasi menyimpan/hapus, akan langsung kembali ke page sebelumnya
+                showToast("History is successfully deleted")
+                // Result from home doesn't have an id, so it's hard to track which one is in the db.
+                // hence why we just go back to the previous page to disable spam click
                 finish()
             }
         } else {
             binding.fabSave.setImageResource(R.drawable.baseline_favorite_border_24)
             binding.fabSave.setOnClickListener {
                 viewModel.upsert(result)
-                showToast("History berhasil disimpan")
+                showToast("History is successfully saved")
                 finish()
             }
         }
@@ -61,7 +60,7 @@ class ResultActivity : AppCompatActivity() {
         if (result.label == "Cancer") {
             binding.linearProgressBar.progress = result.score.times(100).toInt()
         } else {
-            // Dibalik karna bukan cancer, jadi persentase "sehat"
+            // Reversed, to be non-cancer score
             binding.linearProgressBar.progress = 100 - result.score.times(100).toInt()
         }
     }

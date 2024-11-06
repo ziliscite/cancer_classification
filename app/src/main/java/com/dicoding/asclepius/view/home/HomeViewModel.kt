@@ -4,8 +4,8 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dicoding.asclepius.repository.LocalRepository
 
+// Every other fragment is using view model, so might as well
 class HomeViewModel : ViewModel() {
     private val _uri = MutableLiveData<Uri?>()
     val uri: LiveData<Uri?> get() = _uri

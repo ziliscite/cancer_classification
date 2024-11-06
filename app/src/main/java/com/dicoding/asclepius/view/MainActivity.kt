@@ -9,6 +9,8 @@ import com.dicoding.asclepius.R
 import com.dicoding.asclepius.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+// Main activity for navigation, previous activity is now delegated to HomeFragment
+// with the same id of each components
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

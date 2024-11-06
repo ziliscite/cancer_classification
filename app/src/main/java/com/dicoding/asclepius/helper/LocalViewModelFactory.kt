@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.asclepius.di.Injection
 import com.dicoding.asclepius.repository.LocalRepository
 import com.dicoding.asclepius.view.history.HistoryViewModel
-import com.dicoding.asclepius.view.home.HomeViewModel
 import com.dicoding.asclepius.view.result.ResultViewModel
 
 class LocalViewModelFactory private constructor(
